@@ -7,8 +7,7 @@ module.exports = function(esClient){
      * @param callback
      */
     esClient.deleteByQuery = function(options, callback){
-        var dataToDelete = [],
-            dateDeleted = [];
+        var dataToDelete = [];
 
         var defaultOptions = {
             scroll: '30s',
@@ -31,30 +30,33 @@ module.exports = function(esClient){
                     scroll: '30s'
                 }, getMoreUntilDone);
             } else {
-                dateDeleted = _.cloneDeep(dataToDelete);
-
-                function deleteData(){
-                    if( dataToDelete.length > 0 ){
-                        var data = dataToDelete.pop();
-
-                        esClient.delete({
-                            index: data._index,
-                            type: data._type,
-                            id: data._id
-                        }, function(err, response){
-                            if(err){
-                                callback.apply(null, [error, null]);
-                                return;
-                            }
-
-                            deleteData();
-                        });
-                    }else{
-                        callback.apply(null, [null, { status: 'OK', elements: dataToDelete }]);
-                    }
+                if(_.isEmpty(dataToDelete)){
+                    callback.apply(null, [null, { status: 'OK', elements: [] }]);
+                    return;
                 }
 
-                deleteData();
+                var bulkToDelete = [];
+
+                _.forEach(dataToDelete, function(data){
+                    bulkToDelete.push({
+                        delete: {
+                            _index: options.index,
+                            _type: options.type,
+                            _id: data._id
+                        }
+                    });
+                });
+
+                esClient.bulk({
+                    body: bulkToDelete
+                }, function(error, response){
+                    if(error){
+                        callback.apply(null, [error, null]);
+                        return;
+                    }
+
+                    callback.apply(null, [null, { status: 'OK', elements: dataToDelete }]);
+                });
             }
         });
     };
