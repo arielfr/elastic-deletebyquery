@@ -1,17 +1,9 @@
 # elastic-deletebyquery
 
-Just add to your package.json
-
-```json
-"dependencies": {
-    "elastic-deletebyquery": "git@github.com:arielfr/elastic-deletebyquery.git"
-}
-```
-
-or
+Install via NPM
 
 ```
-npm install --save git+ssh://git@github.com:arielfr/elastic-deletebyquery.git
+npm install elastic-deletebyquery
 ```
 
 # Usage
