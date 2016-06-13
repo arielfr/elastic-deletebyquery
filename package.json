@@ -1,0 +1,26 @@
+{
+  "name": "elastic-deletebyquery",
+  "version": "1.0.0",
+  "description": "This module will simulate the elastic delete by query removed from the API 2.3. This is acomplish by making a client.scroll (with query) and a clien.delete",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "ssh",
+    "url": "ssh://git@github.com:arielfr/elastic-deletebyquery.git  "
+  },
+  "author": "Ariel Rey",
+  "license": "MIT",
+  "homepage": "https://github.com/arielfr/elastic-deletebyquery",
+  "dependencies": {
+    "lodash": "^4.13.1"
+  },
+  "readmeFilename": "README.md",
+  "keywords": [
+    "elasticsearch",
+    "deletebyquery",
+    "delete-by-query",
+    "delete"
+  ]
+}
