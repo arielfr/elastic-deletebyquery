@@ -1,7 +1,7 @@
 {
   "name": "elastic-deletebyquery",
   "version": "1.0.1",
-  "description": "This module will simulate the elastic delete by query removed from the API 2.3. This is acomplish by making a client.scroll (with query) and a clien.delete",
+  "description": "This module will simulate the elastic delete by query removed from the API 2.3. This is acomplish by making a client.scroll (with query) and a client.delete",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
