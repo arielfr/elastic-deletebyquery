@@ -1,17 +1,17 @@
 # elastic-deletebyquery
 
-Just add to your package.json the express-enhancer module
+Just add to your package.json
 
 ```json
 "dependencies": {
-    "elastic-deletebyquery": "git@bitbucket.org:smarttly/elastic-deletebyquery.git"
+    "elastic-deletebyquery": "git@github.com:arielfr/elastic-deletebyquery.git"
 }
 ```
 
 or
 
 ```
-npm install --save git+ssh://git@bitbucket.org:smarttly/elastic-deletebyquery.git
+npm install --save git+ssh://git@github.com:arielfr/elastic-deletebyquery.git
 ```
 
 # Usage
