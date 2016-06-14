@@ -11,7 +11,7 @@ module.exports = function(esClient){
 
         var defaultOptions = {
             scroll: '30s',
-            fields: ['id']
+            fields: ['id', '_parent']
         };
 
         options = _.merge({}, defaultOptions, options);
@@ -38,13 +38,19 @@ module.exports = function(esClient){
                 var bulkToDelete = [];
 
                 _.forEach(dataToDelete, function(data){
-                    bulkToDelete.push({
+                    var operation = {
                         delete: {
                             _index: options.index,
                             _type: options.type,
                             _id: data._id
                         }
-                    });
+                    }
+
+                    if(data._parent !== undefined){
+                        operation.delete._parent = data._parent;
+                    }
+
+                    bulkToDelete.push(operation);
                 });
 
                 esClient.bulk({
