@@ -1,6 +1,6 @@
 {
   "name": "elastic-deletebyquery",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "This module will simulate the elastic delete by query removed from the API 2.3. This is acomplish by making a client.scroll (with query) and a client.bulk",
   "main": "app.js",
   "scripts": {

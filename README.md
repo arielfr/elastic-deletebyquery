@@ -16,7 +16,7 @@ If you leave empty the query, you are going to delete all the documents on the t
 
 ```javascript
 var elasticsearch = require('elasticsearch'),
-    elasticDeleteQuery = require('elastic-deletebyquery')
+    elasticDeleteQuery = require('elastic-deletebyquery');
 
 var client = new elasticsearch.Client({
     host: 'localhost:9200'

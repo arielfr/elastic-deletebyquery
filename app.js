@@ -54,6 +54,10 @@ module.exports = function(esClient){
                         callback.apply(null, [error, null]);
                         return;
                     }
+                    if(response.errors){
+                        callback.apply(null, [{ message: 'The bulk has fail' }, null]);
+                        return;
+                    }
 
                     callback.apply(null, [null, { status: 'OK', elements: dataToDelete }]);
                 });
