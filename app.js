@@ -11,7 +11,8 @@ module.exports = function(esClient){
 
         var defaultOptions = {
             scroll: '30s',
-            fields: ['id', '_parent']
+            fields: ['id'],
+            size: 100
         };
 
         options = _.merge({}, defaultOptions, options);
@@ -24,50 +25,47 @@ module.exports = function(esClient){
 
             dataToDelete = _.union(dataToDelete, response.hits.hits);
 
-            if (response.hits.total !== dataToDelete.length) {
-                esClient.scroll({
-                    scrollId: response._scroll_id,
-                    scroll: '30s'
-                }, getMoreUntilDone);
-            } else {
-                if(_.isEmpty(dataToDelete)){
-                    callback.apply(null, [null, { status: 'OK', elements: [] }]);
+            //If there are no results, return
+            if(response.hits.total == 0){
+                callback.apply(null, [null, { status: 'OK', elements: dataToDelete }]);
+                return;
+            }
+
+            var bulkToDelete = [];
+
+            _.forEach(response.hits.hits, function(data){
+                bulkToDelete.push({
+                    delete: {
+                        _index: options.index,
+                        _type: options.type,
+                        _id: data._id
+                    }
+                });
+            });
+
+            //Delete current queried elements
+            esClient.bulk({
+                body: bulkToDelete
+            }, function(error, bulkResponse){
+                if(error){
+                    callback.apply(null, [error, null]);
                     return;
                 }
 
-                var bulkToDelete = [];
-
-                _.forEach(dataToDelete, function(data){
-                    var operation = {
-                        delete: {
-                            _index: options.index,
-                            _type: options.type,
-                            _id: data._id
-                        }
-                    }
-
-                    if(data._parent !== undefined){
-                        operation.delete._parent = data._parent;
-                    }
-
-                    bulkToDelete.push(operation);
-                });
-
-                esClient.bulk({
-                    body: bulkToDelete
-                }, function(error, response){
-                    if(error){
-                        callback.apply(null, [error, null]);
-                        return;
-                    }
-                    if(response.errors){
-                        callback.apply(null, [{ message: 'The bulk has fail' }, null]);
+                if (response.hits.total !== dataToDelete.length) {
+                    esClient.scroll({
+                        scrollId: response._scroll_id,
+                        scroll: '30s'
+                    }, getMoreUntilDone);
+                } else {
+                    if(_.isEmpty(dataToDelete)){
+                        callback.apply(null, [null, { status: 'OK', elements: [] }]);
                         return;
                     }
 
                     callback.apply(null, [null, { status: 'OK', elements: dataToDelete }]);
-                });
-            }
+                }
+            });
         });
     };
 };
