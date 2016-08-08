@@ -52,4 +52,8 @@ client.deleteByQuery(options, function(err, response){
 })
 ```
 
+# Batch Implementation
+I implemented a "size" in the query that will automatically segment the query (default 100), so if you have 100.000 elements to delete, it is going to delete a batch of X elements (size defined) and then, do a scroll again. You can pass the size on the options. This was done, because if you send a bulk of 100.000 elements or more, depending on your System Specification may cause a Memory exception.
+
+## ES Documentation
 If you want to see the parameters that scroll supports, just visit the [elasticsearch documentation](https://www.elastic.co/guide/en/elasticsearch/reference/2.3/search-request-scroll.html)
