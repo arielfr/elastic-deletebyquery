@@ -36,8 +36,8 @@ module.exports = function(esClient){
             _.forEach(response.hits.hits, function(data){
                 bulkToDelete.push({
                     delete: {
-                        _index: options.index,
-                        _type: options.type,
+                        _index: data._index,
+                        _type: data._type,
                         _id: data._id
                     }
                 });
