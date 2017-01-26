@@ -1,3 +1,6 @@
+[![NPM Version](https://img.shields.io/npm/v/elastic-deletebyquery.svg)](http://npmjs.com/package/elastic-deletebyquery)
+[![Downloads](https://img.shields.io/npm/dt/elastic-deletebyquery.svg)](http://npmjs.com/package/elastic-deletebyquery)
+
 # elastic-deletebyquery
 
 Install via NPM
